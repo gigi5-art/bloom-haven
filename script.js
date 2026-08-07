@@ -2,7 +2,23 @@ let petals = Number(localStorage.getItem("petals")) || 0;
 
 let garden = JSON.parse(localStorage.getItem("garden")) || [];
 
-function updatePetals(){
+function updatePetals(function saveGame(){
+
+localStorage.setItem("petals", petals);
+
+localStorage.setItem("garden", JSON.stringify(garden));
+
+}
+
+function loadGame(){
+
+petals = Number(localStorage.getItem("petals")) || 0;
+
+garden = JSON.parse(localStorage.getItem("garden")) || [];
+
+updatePetals();
+
+}){
 
 document.getElementById("coins").innerHTML =
 "🌸 Petals: " + petals;
