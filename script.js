@@ -13,9 +13,9 @@ function startGame() {
     document.getElementById("screen").innerHTML = `
         <h2>🫧 Bubble Pop!</h2>
 
-        <h3>Time: <span id="timer">30</span></h3>
+        <h3>⏰ Time: <span id="timer">30</span></h3>
 
-        <h3>Score: <span id="score">0</span></h3>
+        <h3>⭐ Score: <span id="score">0</span></h3>
 
         <div id="gameArea"></div>
     `;
@@ -23,20 +23,21 @@ function startGame() {
     const gameArea = document.getElementById("gameArea");
 
     gameArea.style.position = "relative";
+    gameArea.style.width = "100%";
     gameArea.style.height = "500px";
     gameArea.style.background = "#dff8ff";
     gameArea.style.borderRadius = "20px";
     gameArea.style.overflow = "hidden";
 
-    const bubbleInterval = setInterval(createBubble,700);
+    const bubbleInterval = setInterval(createBubble, 700);
 
-    const timer = setInterval(()=>{
+    const timer = setInterval(() => {
 
         timeLeft--;
 
-        document.getElementById("timer").innerText=timeLeft;
+        document.getElementById("timer").innerText = timeLeft;
 
-        if(timeLeft<=0){
+        if (timeLeft <= 0) {
 
             clearInterval(timer);
             clearInterval(bubbleInterval);
@@ -45,104 +46,99 @@ function startGame() {
 
             updateCoins();
 
-            document.getElementById("screen").innerHTML=`
+            document.getElementById("screen").innerHTML = `
                 <h2>🎉 Game Over!</h2>
 
-                <h3>You earned ${score} coins!</h3>
+                <p>You earned <b>${score}</b> coins!</p>
 
-                <button onclick="startGame()">
-                🔄 Play Again
-                </button>
+                <button onclick="startGame()">🔄 Play Again</button>
 
-                <button onclick="showGarden()">
-                🌷 Go To Garden
-                </button>
+                <button onclick="showGarden()">🌷 My Garden</button>
+
+                <button onclick="showShop()">🛒 Shop</button>
             `;
 
         }
 
-    },1000);
+    }, 1000);
 
-    function createBubble(){
+    function createBubble() {
 
-        const bubble=document.createElement("div");
+        const bubble = document.createElement("div");
 
-        bubble.innerHTML="🫧";
+        bubble.innerHTML = "🫧";
 
-        bubble.style.position="absolute";
-
-        bubble.style.left=Math.random()*90+"%";
-
-        bubble.style.top="100%";
-
-        bubble.style.fontSize="45px";
-
-        bubble.style.cursor="pointer";
-
-        bubble.style.transition="4s linear";
+        bubble.style.position = "absolute";
+        bubble.style.left = Math.random() * 90 + "%";
+        bubble.style.top = "100%";
+        bubble.style.fontSize = "50px";
+        bubble.style.cursor = "pointer";
+        bubble.style.transition = "4s linear";
 
         gameArea.appendChild(bubble);
 
-        setTimeout(()=>{
-            bubble.style.top="-60px";
-        },50);
+        setTimeout(() => {
+            bubble.style.top = "-60px";
+        }, 50);
 
-        bubble.onclick=function(){
+        bubble.onclick = function () {
 
             score++;
 
-            document.getElementById("score").innerText=score;
+            document.getElementById("score").innerText = score;
 
             bubble.remove();
 
-        }
+        };
 
-        setTimeout(()=>{
+        setTimeout(() => {
             bubble.remove();
-        },4000);
+        }, 4000);
 
     }
 
 }
 
-function showGarden(){
+function showGarden() {
 
-document.getElementById("screen").innerHTML=`
+    document.getElementById("screen").innerHTML = `
+        <h2>🌷 My Garden</h2>
 
-<h2>🌷 My Garden</h2>
+        <p>
+        🌱 Your garden is empty...<br><br>
+        Earn coins by playing Bubble Pop!<br><br>
+        Soon you'll be able to plant flowers here.
+        </p>
 
-<h3>🌱 Empty...</h3>
-
-<p>
-
-Soon you'll be able to plant flowers here!
-
-</p>
-
-`;
+        <button onclick="showHome()">🏠 Home</button>
+    `;
 
 }
 
-function showShop(){
+function showShop() {
 
-document.getElementById("screen").innerHTML=`
+    document.getElementById("screen").innerHTML = `
+        <h2>🛒 Flower Shop</h2>
 
-<h2>🛒 Flower Shop</h2>
+        <p>🌼 Daisy - 20 Coins</p>
 
-<p>
+        <p>🌷 Tulip - 50 Coins</p>
 
-🌼 Daisy - 20 Coins
+        <p>🌹 Rose - 100 Coins</p>
 
-<br><br>
+        <button onclick="showHome()">🏠 Home</button>
+    `;
 
-🌷 Tulip - 50 Coins
+}
 
-<br><br>
+function showHome() {
 
-🌹 Rose - 100 Coins
+    document.getElementById("screen").innerHTML = `
+        <h2>🌸 Welcome to Bloom Haven!</h2>
 
-</p>
-
-`;
+        <p>
+        Play mini-games to earn coins and grow the most beautiful garden! 🌼
+        </p>
+    `;
 
 }
