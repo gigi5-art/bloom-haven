@@ -1,6 +1,6 @@
-let petals = 0;
+let petals = Number(localStorage.getItem("petals")) || 0;
 
-let garden = [];
+let garden = JSON.parse(localStorage.getItem("garden")) || [];
 
 function updatePetals(){
 
@@ -67,13 +67,20 @@ clearInterval(timer);
 
 clearInterval(bubbleInterval);
 
+clearInterval(timer);
+
+clearInterval(bubbleInterval);
+
 petals+=score;
 
 updatePetals();
 
+saveGame();
+
 alert("You earned "+score+" petals! 🌸");
 
 showHome();
+
 
 }
 
@@ -191,6 +198,8 @@ garden.push(flower);
 
 updatePetals();
 
+saveGame();
+
 alert("You planted a "+flower+"!");
 
 }else{
@@ -233,6 +242,6 @@ ${flowers}
 
 }
 
-updatePetals();
+loadGame();
 
 showHome();
