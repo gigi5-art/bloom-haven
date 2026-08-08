@@ -1,263 +1,290 @@
 let petals = Number(localStorage.getItem("petals")) || 0;
-
 let garden = JSON.parse(localStorage.getItem("garden")) || [];
 
-function updatePetals(function saveGame(){
+// ===============================
+// PETALS
+// ===============================
 
-localStorage.setItem("petals", petals);
-
-localStorage.setItem("garden", JSON.stringify(garden));
-
+function updatePetals() {
+    document.getElementById("coins").innerHTML =
+        "🌸 Petals: " + petals;
 }
 
-function loadGame(){
+// ===============================
+// SAVE SYSTEM
+// ===============================
 
-petals = Number(localStorage.getItem("petals")) || 0;
-
-garden = JSON.parse(localStorage.getItem("garden")) || [];
-
-updatePetals();
-
-}){
-
-document.getElementById("coins").innerHTML =
-"🌸 Petals: " + petals;
-
+function saveGame() {
+    localStorage.setItem("petals", petals);
+    localStorage.setItem("garden", JSON.stringify(garden));
 }
 
-function showHome(){
+function loadGame() {
+    petals = Number(localStorage.getItem("petals")) || 0;
+    garden = JSON.parse(localStorage.getItem("garden")) || [];
 
-document.getElementById("screen").innerHTML=`
-
-<h2>🌸 Welcome to Bloom Haven!</h2>
-
-<p>
-
-Play Bubble Pop to earn petals.<br><br>
-
-Buy beautiful flowers.<br><br>
-
-Grow your dream garden!
-
-</p>
-
-`;
-
+    updatePetals();
 }
 
-function startGame(){
+// ===============================
+// HOME
+// ===============================
 
-let score=0;
+function showHome() {
 
-let timeLeft=30;
+    document.getElementById("screen").innerHTML = `
 
-document.getElementById("screen").innerHTML=`
+        <h2>🌸 Welcome to Bloom Haven!</h2>
 
-<h2>🫧 Bubble Pop</h2>
+        <p>
+            Play Bubble Pop to earn petals.<br><br>
+            Buy beautiful flowers.<br><br>
+            Grow your dream garden!
+        </p>
 
-<h3>⏰ Time:
-<span id="timer">30</span>
-</h3>
-
-<h3>⭐ Score:
-<span id="score">0</span>
-</h3>
-
-<div id="gameArea"></div>
-
-`;
-
-const gameArea=document.getElementById("gameArea");
-
-const bubbleInterval=setInterval(createBubble,700);
-
-const timer=setInterval(()=>{
-
-timeLeft--;
-
-document.getElementById("timer").innerText=timeLeft;
-
-if(timeLeft<=0){
-
-clearInterval(timer);
-
-clearInterval(bubbleInterval);
-
-clearInterval(timer);
-
-clearInterval(bubbleInterval);
-
-petals+=score;
-
-updatePetals();
-
-saveGame();
-
-alert("You earned "+score+" petals! 🌸");
-
-showHome();
-
-
+    `;
 }
 
-},1000);
+// ===============================
+// BUBBLE POP
+// ===============================
 
-function createBubble(){
+function startGame() {
 
-const bubble=document.createElement("div");
+    let score = 0;
+    let timeLeft = 30;
 
-bubble.innerHTML="🫧";
+    document.getElementById("screen").innerHTML = `
 
-bubble.style.position="absolute";
+        <h2>🫧 Bubble Pop</h2>
 
-bubble.style.left=Math.random()*90+"%";
+        <h3>
+            ⏰ Time:
+            <span id="timer">30</span>
+        </h3>
 
-bubble.style.top="100%";
+        <h3>
+            ⭐ Score:
+            <span id="score">0</span>
+        </h3>
 
-bubble.style.fontSize="50px";
+        <div id="gameArea"></div>
 
-bubble.style.cursor="pointer";
+    `;
 
-bubble.style.transition="4s linear";
+    const gameArea = document.getElementById("gameArea");
 
-gameArea.appendChild(bubble);
+    const bubbleInterval = setInterval(createBubble, 700);
 
-setTimeout(()=>{
+    const timer = setInterval(() => {
 
-bubble.style.top="-60px";
+        timeLeft--;
 
-},50);
+        const timerElement = document.getElementById("timer");
 
-bubble.onclick=function(){
+        if (timerElement) {
+            timerElement.innerText = timeLeft;
+        }
 
-score++;
+        if (timeLeft <= 0) {
 
-document.getElementById("score").innerText=score;
+            clearInterval(timer);
+            clearInterval(bubbleInterval);
 
-bubble.remove();
+            petals += score;
 
+            updatePetals();
+            saveGame();
+
+            alert(
+                "You earned " + score + " petals! 🌸"
+            );
+
+            showHome();
+        }
+
+    }, 1000);
+
+
+    function createBubble() {
+
+        const bubble = document.createElement("div");
+
+        bubble.innerHTML = "🫧";
+
+        bubble.style.position = "absolute";
+        bubble.style.left = Math.random() * 90 + "%";
+        bubble.style.top = "100%";
+        bubble.style.fontSize = "50px";
+        bubble.style.cursor = "pointer";
+        bubble.style.transition = "4s linear";
+
+        gameArea.appendChild(bubble);
+
+        setTimeout(() => {
+            bubble.style.top = "-60px";
+        }, 50);
+
+        bubble.onclick = function () {
+
+            score++;
+
+            const scoreElement = document.getElementById("score");
+
+            if (scoreElement) {
+                scoreElement.innerText = score;
+            }
+
+            bubble.remove();
+        };
+
+        setTimeout(() => {
+
+            if (bubble.parentElement) {
+                bubble.remove();
+            }
+
+        }, 4000);
+    }
 }
 
-setTimeout(()=>{
+// ===============================
+// SHOP
+// ===============================
 
-bubble.remove();
+function showShop() {
 
-},4000);
+    document.getElementById("screen").innerHTML = `
 
+        <h2>🛒 Flower Shop</h2>
+
+        <div class="shop">
+
+            <div class="card">
+
+                <h3>🌼</h3>
+
+                <h2>Daisy</h2>
+
+                <p>20 Petals</p>
+
+                <button onclick="buyFlower('🌼', 20)">
+                    Buy
+                </button>
+
+            </div>
+
+
+            <div class="card">
+
+                <h3>🌷</h3>
+
+                <h2>Tulip</h2>
+
+                <p>50 Petals</p>
+
+                <button onclick="buyFlower('🌷', 50)">
+                    Buy
+                </button>
+
+            </div>
+
+
+            <div class="card">
+
+                <h3>🌹</h3>
+
+                <h2>Rose</h2>
+
+                <p>100 Petals</p>
+
+                <button onclick="buyFlower('🌹', 100)">
+                    Buy
+                </button>
+
+            </div>
+
+        </div>
+
+    `;
 }
 
+// ===============================
+// BUY FLOWER
+// ===============================
+
+function buyFlower(flower, cost) {
+
+    if (petals >= cost) {
+
+        petals -= cost;
+
+        garden.push(flower);
+
+        updatePetals();
+
+        saveGame();
+
+        alert(
+            "You planted a " + flower + "!"
+        );
+
+    } else {
+
+        alert(
+            "Not enough petals! 😭"
+        );
+    }
 }
 
-function showShop(){
+// ===============================
+// GARDEN
+// ===============================
 
-document.getElementById("screen").innerHTML=`
+function showGarden() {
 
-<h2>🛒 Flower Shop</h2>
+    let flowers = "";
 
-<div class="shop">
+    if (garden.length === 0) {
 
-<div class="card">
+        flowers = `
+            <h2>🌱 Your garden is empty.</h2>
+            <p>Buy some flowers from the shop! 🌼</p>
+        `;
 
-<h3>🌼</h3>
+    } else {
 
-<h2>Daisy</h2>
+        garden.forEach(function (flower) {
 
-<p>20 Petals</p>
+            flowers += `
+                <span style="
+                    font-size:50px;
+                    margin:8px;
+                    display:inline-block;
+                ">
+                    ${flower}
+                </span>
+            `;
 
-<button onclick="buyFlower('🌼',20)">
-Buy
-</button>
+        });
+    }
 
-</div>
+    document.getElementById("screen").innerHTML = `
 
-<div class="card">
+        <h2>🌷 My Garden</h2>
 
-<h3>🌷</h3>
+        <div id="garden">
 
-<h2>Tulip</h2>
+            ${flowers}
 
-<p>50 Petals</p>
+        </div>
 
-<button onclick="buyFlower('🌷',50)">
-Buy
-</button>
-
-</div>
-
-<div class="card">
-
-<h3>🌹</h3>
-
-<h2>Rose</h2>
-
-<p>100 Petals</p>
-
-<button onclick="buyFlower('🌹',100)">
-Buy
-</button>
-
-</div>
-
-</div>
-
-`;
-
+    `;
 }
 
-function buyFlower(flower,cost){
-
-if(petals>=cost){
-
-petals-=cost;
-
-garden.push(flower);
-
-updatePetals();
-
-saveGame();
-
-alert("You planted a "+flower+"!");
-
-}else{
-
-alert("Not enough petals! 😭");
-
-}
-
-}
-
-function showGarden(){
-
-let flowers="";
-
-if(garden.length===0){
-
-flowers="<h2>🌱 Your garden is empty.</h2>";
-
-}else{
-
-garden.forEach(flower=>{
-
-flowers+=flower+" ";
-
-});
-
-}
-
-document.getElementById("screen").innerHTML=`
-
-<h2>🌷 My Garden</h2>
-
-<div id="garden">
-
-${flowers}
-
-</div>
-
-`;
-
-}
+// ===============================
+// START GAME
+// ===============================
 
 loadGame();
-
 showHome();
