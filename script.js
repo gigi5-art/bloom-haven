@@ -1,34 +1,79 @@
-let petals = Number(localStorage.getItem("petals")) || 0;
-let garden = JSON.parse(localStorage.getItem("garden")) || [];
+// ========================================
+// 🌸 BLOOM HAVEN — VERSION 3.4
+// FREE GARDEN PLACEMENT
+// ========================================
 
-// ===============================
-// PETALS
-// ===============================
+
+// ========================================
+// 💾 LOAD SAVED DATA
+// ========================================
+
+let petals = Number(localStorage.getItem("petals")) || 0;
+
+let garden = JSON.parse(
+    localStorage.getItem("garden")
+) || [];
+
+
+// ========================================
+// 🌸 PETALS
+// ========================================
 
 function updatePetals() {
-    document.getElementById("coins").innerHTML =
-        "🌸 Petals: " + petals;
+
+    const coins = document.getElementById("coins");
+
+    if (coins) {
+        coins.innerHTML =
+            "🌸 Petals: " + petals;
+    }
+
 }
 
-// ===============================
-// SAVE SYSTEM
-// ===============================
+
+// ========================================
+// 💾 SAVE GAME
+// ========================================
 
 function saveGame() {
-    localStorage.setItem("petals", petals);
-    localStorage.setItem("garden", JSON.stringify(garden));
+
+    localStorage.setItem(
+        "petals",
+        petals
+    );
+
+    localStorage.setItem(
+        "garden",
+        JSON.stringify(garden)
+    );
+
 }
+
+
+// ========================================
+// 💾 LOAD GAME
+// ========================================
 
 function loadGame() {
-    petals = Number(localStorage.getItem("petals")) || 0;
-    garden = JSON.parse(localStorage.getItem("garden")) || [];
+
+    petals =
+        Number(
+            localStorage.getItem("petals")
+        ) || 0;
+
+    garden =
+        JSON.parse(
+            localStorage.getItem("garden")
+        ) || [];
 
     updatePetals();
+
 }
 
-// ===============================
-// HOME
-// ===============================
+
+// ========================================
+// 🏡 HOME
+// ========================================
 
 function showHome() {
 
@@ -38,21 +83,27 @@ function showHome() {
 
         <p>
             Play Bubble Pop to earn petals.<br><br>
+
             Buy beautiful flowers.<br><br>
-            Grow your dream garden!
+
+            Plant them anywhere in your garden! 🌱
         </p>
 
     `;
+
 }
 
-// ===============================
-// BUBBLE POP
-// ===============================
+
+// ========================================
+// 🫧 BUBBLE POP
+// ========================================
 
 function startGame() {
 
     let score = 0;
+
     let timeLeft = 30;
+
 
     document.getElementById("screen").innerHTML = `
 
@@ -72,85 +123,150 @@ function startGame() {
 
     `;
 
-    const gameArea = document.getElementById("gameArea");
 
-    const bubbleInterval = setInterval(createBubble, 700);
+    const gameArea =
+        document.getElementById("gameArea");
 
-    const timer = setInterval(() => {
 
-        timeLeft--;
+    const bubbleInterval =
+        setInterval(
+            createBubble,
+            700
+        );
 
-        const timerElement = document.getElementById("timer");
 
-        if (timerElement) {
-            timerElement.innerText = timeLeft;
-        }
+    const timer =
+        setInterval(() => {
 
-        if (timeLeft <= 0) {
+            timeLeft--;
 
-            clearInterval(timer);
-            clearInterval(bubbleInterval);
+            const timerElement =
+                document.getElementById("timer");
 
-            petals += score;
 
-            updatePetals();
-            saveGame();
+            if (timerElement) {
 
-            alert(
-                "You earned " + score + " petals! 🌸"
-            );
+                timerElement.innerText =
+                    timeLeft;
 
-            showHome();
-        }
+            }
 
-    }, 1000);
+
+            if (timeLeft <= 0) {
+
+                clearInterval(timer);
+
+                clearInterval(
+                    bubbleInterval
+                );
+
+
+                petals += score;
+
+
+                updatePetals();
+
+                saveGame();
+
+
+                alert(
+                    "You earned " +
+                    score +
+                    " petals! 🌸"
+                );
+
+
+                showHome();
+
+            }
+
+        }, 1000);
 
 
     function createBubble() {
 
-        const bubble = document.createElement("div");
+        const bubble =
+            document.createElement("div");
+
 
         bubble.innerHTML = "🫧";
 
-        bubble.style.position = "absolute";
-        bubble.style.left = Math.random() * 90 + "%";
-        bubble.style.top = "100%";
-        bubble.style.fontSize = "50px";
-        bubble.style.cursor = "pointer";
-        bubble.style.transition = "4s linear";
 
-        gameArea.appendChild(bubble);
+        bubble.style.position =
+            "absolute";
+
+        bubble.style.left =
+            Math.random() * 90 + "%";
+
+        bubble.style.top =
+            "100%";
+
+        bubble.style.fontSize =
+            "50px";
+
+        bubble.style.cursor =
+            "pointer";
+
+        bubble.style.transition =
+            "4s linear";
+
+
+        gameArea.appendChild(
+            bubble
+        );
+
 
         setTimeout(() => {
-            bubble.style.top = "-60px";
+
+            bubble.style.top =
+                "-60px";
+
         }, 50);
 
-        bubble.onclick = function () {
 
-            score++;
+        bubble.onclick =
+            function () {
 
-            const scoreElement = document.getElementById("score");
+                score++;
 
-            if (scoreElement) {
-                scoreElement.innerText = score;
-            }
 
-            bubble.remove();
-        };
+                const scoreElement =
+                    document.getElementById(
+                        "score"
+                    );
+
+
+                if (scoreElement) {
+
+                    scoreElement.innerText =
+                        score;
+
+                }
+
+
+                bubble.remove();
+
+            };
+
 
         setTimeout(() => {
 
             if (bubble.parentElement) {
+
                 bubble.remove();
+
             }
 
         }, 4000);
+
     }
+
 }
 
-// ===============================
-// SHOP
-// ===============================
+
+// ========================================
+// 🛒 SHOP
+// ========================================
 
 function showShop() {
 
@@ -158,7 +274,14 @@ function showShop() {
 
         <h2>🛒 Flower Shop</h2>
 
+        <p>
+            Buy flowers, then plant them
+            anywhere in your garden! 🌱
+        </p>
+
+
         <div class="shop">
+
 
             <div class="card">
 
@@ -168,7 +291,9 @@ function showShop() {
 
                 <p>20 Petals</p>
 
-                <button onclick="buyFlower('🌼', 20)">
+                <button
+                    onclick="buyFlower('🌼', 20)"
+                >
                     Buy
                 </button>
 
@@ -183,7 +308,9 @@ function showShop() {
 
                 <p>50 Petals</p>
 
-                <button onclick="buyFlower('🌷', 50)">
+                <button
+                    onclick="buyFlower('🌷', 50)"
+                >
                     Buy
                 </button>
 
@@ -198,93 +325,421 @@ function showShop() {
 
                 <p>100 Petals</p>
 
-                <button onclick="buyFlower('🌹', 100)">
+                <button
+                    onclick="buyFlower('🌹', 100)"
+                >
                     Buy
                 </button>
 
             </div>
 
+
         </div>
 
     `;
+
 }
 
-// ===============================
-// BUY FLOWER
-// ===============================
 
-function buyFlower(flower, cost) {
+// ========================================
+// 🌸 BUY FLOWER
+// ========================================
+
+function buyFlower(
+    flower,
+    cost
+) {
 
     if (petals >= cost) {
 
         petals -= cost;
 
-        garden.push(flower);
+
+        // Store the flower
+        // without a position yet
+
+        garden.push({
+
+            flower: flower,
+
+            x: null,
+
+            y: null
+
+        });
+
 
         updatePetals();
 
         saveGame();
 
+
         alert(
-            "You planted a " + flower + "!"
+            "You bought a " +
+            flower +
+            "! 🌱"
         );
+
+
+        showGarden();
+
 
     } else {
 
         alert(
             "Not enough petals! 😭"
         );
+
     }
+
 }
 
-// ===============================
-// GARDEN
-// ===============================
+
+// ========================================
+// 🌷 GARDEN
+// ========================================
 
 function showGarden() {
-
-    let flowers = "";
-
-    if (garden.length === 0) {
-
-        flowers = `
-            <h2>🌱 Your garden is empty.</h2>
-            <p>Buy some flowers from the shop! 🌼</p>
-        `;
-
-    } else {
-
-        garden.forEach(function (flower) {
-
-            flowers += `
-                <span style="
-                    font-size:50px;
-                    margin:8px;
-                    display:inline-block;
-                ">
-                    ${flower}
-                </span>
-            `;
-
-        });
-    }
 
     document.getElementById("screen").innerHTML = `
 
         <h2>🌷 My Garden</h2>
 
-        <div id="garden">
+        <p>
+            🌱 Tap anywhere to plant a flower!
+            <br>
+            🖱️ Drag flowers to move them.
+        </p>
 
-            ${flowers}
+
+        <div class="garden-world"
+             id="gardenWorld">
+
+
+            <!-- ☀️ SUN -->
+
+            <div class="garden-sun">
+                ☀️
+            </div>
+
+
+            <!-- ☁️ CLOUDS -->
+
+            <div class="
+                garden-cloud
+                cloud-one
+            ">
+                ☁️
+            </div>
+
+
+            <div class="
+                garden-cloud
+                cloud-two
+            ">
+                ☁️
+            </div>
+
+
+            <!-- 🌳 TREES -->
+
+            <div class="
+                garden-decoration
+                tree-left
+            ">
+                🌳
+            </div>
+
+
+            <div class="
+                garden-decoration
+                tree-right
+            ">
+                🌳
+            </div>
+
+
+            <!-- 🦋 BUTTERFLY -->
+
+            <div class="
+                garden-butterfly
+            ">
+                🦋
+            </div>
+
 
         </div>
 
     `;
+
+
+    const gardenWorld =
+        document.getElementById(
+            "gardenWorld"
+        );
+
+
+    // ====================================
+    // 🌸 PLACE EXISTING FLOWERS
+    // ====================================
+
+    garden.forEach(
+        (item, index) => {
+
+            if (
+                item.x !== null &&
+                item.y !== null
+            ) {
+
+                createFlowerElement(
+                    item,
+                    index,
+                    gardenWorld
+                );
+
+            }
+
+        }
+    );
+
+
+    // ====================================
+    // 🌱 FIND UNPLANTED FLOWER
+    // ====================================
+
+    const unplantedIndex =
+        garden.findIndex(
+            item =>
+                item.x === null ||
+                item.y === null
+        );
+
+
+    if (unplantedIndex !== -1) {
+
+        gardenWorld.classList.add(
+            "planting-mode"
+        );
+
+
+        gardenWorld.addEventListener(
+            "click",
+            function plantFlower(event) {
+
+
+                // Ignore clicks
+                // directly on existing flowers
+
+                if (
+                    event.target.classList.contains(
+                        "placed-flower"
+                    )
+                ) {
+
+                    return;
+
+                }
+
+
+                const rect =
+                    gardenWorld.getBoundingClientRect();
+
+
+                const x =
+                    (
+                        event.clientX -
+                        rect.left
+                    ) /
+                    rect.width *
+                    100;
+
+
+                const y =
+                    (
+                        event.clientY -
+                        rect.top
+                    ) /
+                    rect.height *
+                    100;
+
+
+                garden[
+                    unplantedIndex
+                ].x = x;
+
+
+                garden[
+                    unplantedIndex
+                ].y = y;
+
+
+                saveGame();
+
+
+                showGarden();
+
+            }
+        );
+
+    }
+
 }
 
-// ===============================
-// START GAME
-// ===============================
+
+// ========================================
+// 🌸 CREATE FLOWER
+// ========================================
+
+function createFlowerElement(
+    item,
+    index,
+    gardenWorld
+) {
+
+    const flower =
+        document.createElement(
+            "div"
+        );
+
+
+    flower.className =
+        "placed-flower";
+
+
+    flower.innerText =
+        item.flower;
+
+
+    flower.style.left =
+        item.x + "%";
+
+
+    flower.style.top =
+        item.y + "%";
+
+
+    gardenWorld.appendChild(
+        flower
+    );
+
+
+    // ====================================
+    // 🖱️ DRAG / TOUCH
+    // ====================================
+
+    let dragging = false;
+
+
+    flower.addEventListener(
+        "pointerdown",
+        function (event) {
+
+            event.stopPropagation();
+
+            dragging = true;
+
+            flower.setPointerCapture(
+                event.pointerId
+            );
+
+        }
+    );
+
+
+    flower.addEventListener(
+        "pointermove",
+        function (event) {
+
+            if (!dragging) {
+                return;
+            }
+
+
+            const rect =
+                gardenWorld.getBoundingClientRect();
+
+
+            let x =
+                (
+                    event.clientX -
+                    rect.left
+                ) /
+                rect.width *
+                100;
+
+
+            let y =
+                (
+                    event.clientY -
+                    rect.top
+                ) /
+                rect.height *
+                100;
+
+
+            // Keep flower inside garden
+
+            x =
+                Math.max(
+                    5,
+                    Math.min(
+                        95,
+                        x
+                    )
+                );
+
+
+            y =
+                Math.max(
+                    10,
+                    Math.min(
+                        90,
+                        y
+                    )
+                );
+
+
+            flower.style.left =
+                x + "%";
+
+
+            flower.style.top =
+                y + "%";
+
+
+            garden[index].x =
+                x;
+
+
+            garden[index].y =
+                y;
+
+        }
+    );
+
+
+    flower.addEventListener(
+        "pointerup",
+        function () {
+
+            if (dragging) {
+
+                dragging = false;
+
+                saveGame();
+
+            }
+
+        }
+    );
+
+}
+
+
+// ========================================
+// 🚀 START
+// ========================================
 
 loadGame();
+
 showHome();
